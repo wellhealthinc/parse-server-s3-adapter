@@ -30,6 +30,7 @@ function optionsFromArguments(args) {
     if (otherOptions) {
       options.bucketPrefix = otherOptions.bucketPrefix;
       options.directAccess = otherOptions.directAccess;
+      options.secureAclOnDirectAccess = otherOptions.secureAclOnDirectAccess;
     }
   } else {
     options = accessKeyOrOptions || {};
@@ -40,6 +41,7 @@ function optionsFromArguments(args) {
   options = fromEnvironmentOrDefault(options, 'bucketPrefix', 'S3_BUCKET_PREFIX', '');
   options = fromEnvironmentOrDefault(options, 'region', 'S3_REGION', DEFAULT_S3_REGION);
   options = fromEnvironmentOrDefault(options, 'directAccess', 'S3_DIRECT_ACCESS', false);
+  options = fromEnvironmentOrDefault(options, 'secureAclOnDirectAccess', 'S3_SECURE_DIRECT_ACCESS', false);
   return options;
 }
 
@@ -52,6 +54,8 @@ function S3Adapter() {
   this._bucket = options.bucket;
   this._bucketPrefix = options.bucketPrefix;
   this._directAccess = options.directAccess;
+  this._secureAclOnDirectAccess = options.secureAclOnDirectAccess;
+
 
   let s3Options = {
     accessKeyId: options.accessKey,
@@ -85,7 +89,7 @@ S3Adapter.prototype.createFile = function(filename, data, contentType) {
     Key: this._bucketPrefix + filename,
     Body: data
   };
-  if (this._directAccess) {
+  if (this._directAccess && !this._secureAclOnDirectAccess) {
     params.ACL = "public-read"
   }
   if (contentType) {

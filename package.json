@@ -1,7 +1,7 @@
 {
-  "name": "parse-server-s3-adapter",
+  "name": "parse-server-s3-adapter-secure",
   "version": "1.0.1",
-  "description": "AWS S3 adapter for parse-server",
+  "description": "A more secure version of AWS S3 adapter for parse-server",
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover -x **/spec/** jasmine --captureExceptions"
@@ -15,7 +15,7 @@
     "AWS",
     "S3"
   ],
-  "author": "Parse",
+  "author": "Parse & Zack Leman",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/parse-server-modules/parse-server-s3-adapter/issues"
