@@ -95,6 +95,8 @@ S3Adapter.prototype.createFile = function(filename, data, contentType) {
   if (contentType) {
     params.ContentType = contentType;
   }
+params.ServerSideEncryption = 'AES256';
+
   return this.createBucket().then(() => {
     return new Promise((resolve, reject) => {
       this._s3Client.upload(params, (err, data) => {
