@@ -1,6 +1,6 @@
 {
   "name": "parse-server-s3-adapter-secure",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A more secure version of AWS S3 adapter for parse-server",
   "main": "index.js",
   "scripts": {

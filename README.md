@@ -26,8 +26,12 @@ parse-server adapter for AWS S3
       // optional:
       "region": 'us-east-1', // default value
       "bucketPrefix": '', // default value
-      "directAccess": false // default value
-    } 
+      "directAccess": false, // default value
+      "baseUrl": null, // default value
+      "baseUrlDirect": false, // default value
+      "signatureVersion": 'v4', // default value
+      "globalCacheControl": null // default value. Or 'public, max-age=86400000' for 24 hrs Cache-Control
+    }
   }
 }
 ```
@@ -40,6 +44,7 @@ Set your environment variables:
 S3_ACCESS_KEY=accessKey
 S3_SECRET_KEY=secretKey
 S3_BUCKET=bucketName
+S3_SIGNATURE_VERSION=v4
 ```
 
 And update your config / options
@@ -59,13 +64,16 @@ And update your config / options
 ```
 var S3Adapter = require('parse-server-s3-adapter');
 
-var s3Adapter = new S3Adapter('accessKey', 
-								'secretKey', 
-								'bucket' , {
-								    region: 'us-east-1'
-									bucketPrefix: '',
-									directAccess: false
-								});
+var s3Adapter = new S3Adapter('accessKey',
+                  'secretKey',
+                  'bucket' , {
+                    region: 'us-east-1'
+                    bucketPrefix: '',
+                    directAccess: false,
+                    baseUrl: 'http://images.example.com',
+                    signatureVersion: 'v4',
+                    globalCacheControl: 'public, max-age=86400000'  // 24 hrs Cache-Control.
+                  });
 
 var api = new ParseServer({
 	appId: 'my_app',
@@ -80,22 +88,23 @@ or with an options hash
 var S3Adapter = require('parse-server-s3-adapter');
 
 var s3Options = {
-	"accessKey": "accessKey",
-   	"secretKey": "secretKey",
-   	"bucket": "my_bucket",
-   	// optional:
-   	"region": 'us-east-1', // default value
-   	"bucketPrefix": '', // default value
-   	"directAccess": false // default value
-} 
+  "accessKey": "accessKey",
+  "secretKey": "secretKey",
+  "bucket": "my_bucket",
+  // optional:
+  "region": 'us-east-1', // default value
+  "bucketPrefix": '', // default value
+  "directAccess": false, // default value
+  "baseUrl": null // default value,
+  "signatureVersion": 'v4', // default value
+  "globalCacheControl": null // default value. Or 'public, max-age=86400000' for 24 hrs Cache-Control
+}
 
 var s3Adapter = new S3Adapter(s3Options);
 
 var api = new ParseServer({
-	appId: 'my_app',
-	masterKey: 'master_key',
-	filesAdapter: s3Adapter
+  appId: 'my_app',
+  masterKey: 'master_key',
+  filesAdapter: s3Adapter
 })
 ```
-
-
